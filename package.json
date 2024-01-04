@@ -1,0 +1,26 @@
+{
+  "name": "hvc",
+  "version": "1.0.0",
+  "source": "src/app/HVC.ts",
+  "main": "dist/HVC.js",
+  "module": "dist/esm/HVC.js",
+  "types": "dist/HVC.d.ts",
+  "description": "hvc web version",
+  "scripts": {
+    "test": "jest",
+    "build": "parcel build"
+  },
+  "repository": "https://github.com/WilkerSebastian/HV-compiler",
+  "author": "Wilker Sebastian",
+  "license": "MIT",
+  "keywords": ["HVC", "assembly", "executable", "compiler"],
+  "devDependencies": {
+    "@parcel/packager-ts": "2.10.3",
+    "@parcel/transformer-typescript-types": "2.10.3",
+    "typescript": "^5.3.3",
+    "@types/jest": "^29.5.11",
+    "jest": "^29.7.0",
+    "parcel": "^2.10.3",
+    "ts-jest": "^29.1.1"
+  }
+}
