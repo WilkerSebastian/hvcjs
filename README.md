@@ -5,7 +5,7 @@ O HVC WEB é uma versão modularizada do compilador <a href="https://github.com/
 ### Instalação
 Para instalar o HVC WEB, utilize o seguinte comando no terminal:
 ```bash
-npm i hvc
+npm i hvcjs
 ```
 
 ### Como Usar
