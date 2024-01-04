@@ -10,8 +10,8 @@
     "test": "jest",
     "build": "parcel build"
   },
-  "repository": "https://github.com/WilkerSebastian/HV-compiler",
-  "author": "Wilker Sebastian",
+  "repository": "https://github.com/WilkerSebastian/HVC-web",
+  "author": "WilkerSebastian <wilkerafonso2005@gmail.com>",
   "license": "MIT",
   "keywords": ["HVC", "assembly", "executable", "compiler"],
   "devDependencies": {
