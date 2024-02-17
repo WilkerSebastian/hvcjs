@@ -103,4 +103,10 @@ export default class HVM {
 
     }
 
+    public getState() {
+
+        return this.state
+
+    }
+
 }

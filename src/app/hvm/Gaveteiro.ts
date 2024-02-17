@@ -50,7 +50,7 @@ export default class Gaveteiro {
   
     public registrar(endereco: number, valor: string) {
 
-      if(endereco + 1 >= this.gavetas.length) {
+      if(endereco + 1 > this.gavetas.length) {
 
         throw new Error(`Erro de sobrecarga de gavetas, limite de ${this.gavetas.length} registros`)
 

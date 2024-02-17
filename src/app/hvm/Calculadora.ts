@@ -4,48 +4,36 @@ export default class Calculadora {
   
     public soma(valor:number) {
       
-      if (valor < 0 || valor + this.acumulador > 999) 
-        throw new Error(`Erro na operação ${this.acumulador} + ${valor} = ${valor + this.acumulador}, único valor aceito como resultado é entre 0-999`);
-  
-      this.acumulador += valor;
-      
+      this.acumular(this.acumulador + valor)
+
     }
   
     public subtraia(valor:number) {
-      
-      if (valor < 0 || valor + this.acumulador > 999) 
-        throw new Error(`Erro na operação ${this.acumulador} - ${valor} = ${valor - this.acumulador}, único valor aceito como resultado é entre 0-999`);
-  
-      this.acumulador -= valor;
+
+      this.acumular(this.acumulador - valor)
 
     }
   
     public multiplicar(valor:number) {
-      
-      if (valor < 0 || valor + this.acumulador > 999) 
-          throw new Error(`Erro na operação ${this.acumulador} * ${valor} = ${valor * this.acumulador}, único valor aceito como resultado é entre 0-999`);
-        
-      this.acumulador *= valor;
+
+      this.acumular(this.acumulador * valor);
 
     }
   
     public divida(valor:number) {
 
-      if (valor < 0 || valor + this.acumulador > 999) 
-        throw new Error(`Erro na operação ${this.acumulador} / ${valor} = ${valor / this.acumulador}, único valor aceito como resultado é entre 0-999`);
-       
-      this.acumulador = parseInt((parseInt(this.acumulador.toString()) / parseInt(valor.toString())).toString());
+      this.acumular(this.acumulador / valor);
 
     }
 
     public acumular(valor:number) {
-    
-        if(valor < 0 || valor > 999) 
-          throw new Error(`Erro na escrita do valor ${valor} no gaveteiro. Apenas valores entre 0-999 são aceitos.`);
-            
-        this.acumulador = valor;
 
-        return "sucesso"
+      valor = parseInt(valor.toString())
+    
+      if(valor < -99 || valor > 999) 
+        throw new Error(`Erro calculadora ${valor}. Apenas valores entre 0-999 são aceitos.`);
+          
+      this.acumulador = valor;
     
     }
     
