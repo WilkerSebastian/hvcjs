@@ -12,7 +12,7 @@ npm i hvcjs
 
 No exemplo TypeScript abaixo, uma instância do HVC é criada. Em seguida, são configurados o método addEventOutput (responsável por definir o evento de saída), o código através do método setCode, e por fim, o código é executado usando o método run.
 ```typescript
-import { HVC } from "hvc"
+import { HVC } from "hvcjs"
 
 const hvc = new HVC()
 
