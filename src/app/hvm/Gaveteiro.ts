@@ -55,24 +55,20 @@ export default class Gaveteiro {
   
     public registrar(endereco: number, valor: string) {
 
-      if(endereco + 1 > this.gavetas.length) {
+      if(endereco + 1 > this.gavetas.length)
+        throw new Error(`Erro de sobrecarga de gavetas, limite de ${this.gavetas.length} registros`);
+      else if(endereco < 0)
+        throw new Error(`Erro de estouro negativo de gavetas, as gabetas vão de 0 a ${this.gavetas.length} registros`);
 
-        throw new Error(`Erro de sobrecarga de gavetas, limite de ${this.gavetas.length} registros`)
-
-      } else {
-        
-
-        if((endereco < this.ultimoRestrito) && this.ultimoRestrito > 0){
-            const conteudo = this.ler(endereco);
-            throw new Error(`Erro tentativa de sobrescrita de gaveta que armazena código fonte conteúdo da gaveta(${endereco}): ${conteudo}`);
-        }
-
-        const numeric_value = parseInt(valor)
-
-        if (numeric_value < 0 || numeric_value > 999)
-          throw new Error(`Valor invalido de escrita na gaveta [${endereco}]:${numeric_value}`)
-
+      if((endereco < this.ultimoRestrito) && this.ultimoRestrito > 0){
+          const conteudo = this.ler(endereco);
+          throw new Error(`Erro tentativa de sobrescrita de gaveta que armazena código fonte conteúdo da gaveta(${endereco}): ${conteudo}`);
       }
+
+      const numeric_value = parseInt(valor)
+
+      if (numeric_value < 0 || numeric_value > 999)
+        throw new Error(`Valor invalido de escrita na gaveta [${endereco}]:${numeric_value}`)
 
       this.gavetas[endereco] = valor
 
