@@ -1,6 +1,6 @@
 // Testes para linguagem de gaveta
 
-import HVC from "../../app/HVC";
+import {HVC} from "../../app/HVC";
 
 const hvc = new HVC()
 

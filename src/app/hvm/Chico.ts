@@ -121,7 +121,7 @@ export default class Chico {
     
     public pare():HVMState { //Finalizar
 
-        return "ENDED"
+        return "DESLIGADO"
     
     }
     

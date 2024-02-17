@@ -7,10 +7,11 @@ import PortaCartoes from "./PortaCartoes"
 import HVMState from "../state/HVMState"
 import { sleep } from "../utils/sleep"
 import DrawerLanguage from "../syntax/language/DrawerLanguage"
+import DLToken, { DLType } from "../syntax/tokens/DLToken"
 
 export default class HVM {
 
-    private state:HVMState = 'ENDED'
+    private state:HVMState = 'DESLIGADO'
 
     public calculadora = new Calculadora()
     public chico = new Chico()
@@ -25,69 +26,86 @@ export default class HVM {
 
         this.portaCartoes.inserir(...code.split(/\s+/))
 
-        this.state = "RUNNING"
-
         await this.executable()
 
     }
 
-    public async executable() {
+    private async executable() {
+
+        let cache = 0
 
         const syntax = new DrawerLanguage()
 
-        await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay);     
+        this.state = "CARGA"
+
+        await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay);   
+        
+        this.state = "EXECUÇÃO"
         
         do {
-
-            if (this.delay > 0 && this.state != "WAIT") {
-             
+    
+            if (this.delay > 0) 
                 await sleep(this.delay)
 
-            }
+            let token:DLToken
 
-            const token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
+            if (this.state == 'EXECUÇÃO')
+                token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
+            else
+                token = syntax.lexer(this.gaveteiro.getGavetas()[this.epi.lerRegistro()])
 
             const instrucao = token.getType()
 
             const EE = token.getValue()
 
-            if (instrucao == "0EE")
-                this.chico.cpEE(this.calculadora, this.gaveteiro, EE)
+            if (cache != this.epi.lerRegistro())
+                this.state = await this.interpetInstruction(instrucao, EE)
 
-            else if (instrucao == "1EE")
-                this.chico.cpAC(this.calculadora, this.gaveteiro, EE)
+            cache = this.epi.lerRegistro()
 
-            else if (instrucao == "2EE")
-                this.chico.some(this.calculadora, this.gaveteiro, EE)
+        } while(this.state != "DESLIGADO");
 
-            else if (instrucao == "3EE") 
-                this.chico.subtraia(this.calculadora, this.gaveteiro, EE)
+    }
 
-            else if (instrucao == "4EE") 
-                this.chico.multiplique(this.calculadora, this.gaveteiro, EE)
-                
-            else if (instrucao == "5EE") 
-                this.chico.divida(this.calculadora, this.gaveteiro, EE)
+    private async interpetInstruction(instrucao:DLType, EE:number): Promise<HVMState> {
+        
+        if (instrucao == "0EE")
+            this.chico.cpEE(this.calculadora, this.gaveteiro, EE)
 
-            else if (instrucao == "6EE")
-                this.chico.se(this.calculadora, this.epi, EE)
+        else if (instrucao == "1EE")
+            this.chico.cpAC(this.calculadora, this.gaveteiro, EE)
 
-            else if (instrucao == "7EE")
-                await this.chico.leia(this.gaveteiro, this.portaCartoes, EE)
+        else if (instrucao == "2EE")
+            this.chico.some(this.calculadora, this.gaveteiro, EE)
 
-            else if (instrucao == "8EE")
-                this.chico.escreva(this.gaveteiro, this.folhaDeSaida, EE)
+        else if (instrucao == "3EE") 
+            this.chico.subtraia(this.calculadora, this.gaveteiro, EE)
 
-            else if (instrucao == "9EE")
-                this.chico.para(this.epi, EE)
+        else if (instrucao == "4EE") 
+            this.chico.multiplique(this.calculadora, this.gaveteiro, EE)
+            
+        else if (instrucao == "5EE") 
+            this.chico.divida(this.calculadora, this.gaveteiro, EE)
 
-            else if (instrucao == "0-N")
-                this.chico.constante(this.calculadora, EE)
+        else if (instrucao == "6EE")
+            this.chico.se(this.calculadora, this.epi, EE)
 
-            else if(instrucao == "000") 
-                this.state = this.chico.pare()
+        else if (instrucao == "7EE")
+            await this.chico.leia(this.gaveteiro, this.portaCartoes, EE)
 
-        } while(this.state != "ENDED");
+        else if (instrucao == "8EE")
+            this.chico.escreva(this.gaveteiro, this.folhaDeSaida, EE)
+
+        else if (instrucao == "9EE")
+            this.chico.para(this.epi, EE)
+
+        else if (instrucao == "0-N")
+            this.chico.constante(this.calculadora, EE)
+
+        else if(instrucao == "000") 
+            return "DESLIGADO"
+
+        return this.state
 
     }
 

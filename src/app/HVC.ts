@@ -35,7 +35,7 @@ class HVC {
 
     private async runner(debug?:boolean, delay?:number) {
 
-        this.isDebug == debug ?? true
+        this.isDebug == (delay ?? 0) > 0
         this.HVM = new HVM()
         this.HVM.setDelay(delay ?? 0)
         this.HVM.portaCartoes.entrada = this.input
@@ -50,34 +50,33 @@ class HVC {
 
     }
 
-    public async debug(delay:number) {
-        
-        await this.runner(true, delay)
-    
-    }
-
     public finish() {
 
-        this.HVM.setState("ENDED")
+        this.HVM.setState("DESLIGADO")
 
     }
 
     public stop() {
 
-        if (this.isDebug)
-            this.HVM.setState("WAIT")
-        else
-            console.warn("Não é permitido parar a execução do HVM sem estar em modo de depuração");
+        this.HVM.setState("ESPERANDO")
+
+    }
+
+    public continue() {
+
+        this.HVM.setState("EXECUÇÃO")
 
     }
 
     public next() {               
 
+        this.HVM.epi.registrar(this.HVM.epi.lerRegistro() + 1)
+
     }
 
     public back() {
 
-
+        this.HVM.epi.registrar(this.HVM.epi.lerRegistro() - 1)
 
     }
     
@@ -86,7 +85,9 @@ class HVC {
     }
     
     public getCode() {
+
         return this.code
+    
     }
 
     public getHVM() {
