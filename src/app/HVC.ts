@@ -5,15 +5,16 @@ import FolhaDeSaida from "./hvm/FolhaDeSaida"
 import Gaveteiro from "./hvm/Gaveteiro"
 import HVM from "./hvm/HVM"
 import PortaCartoes from "./hvm/PortaCartoes"
+import HVMState from "./state/HVMState"
 
 class HVC {
 
     private code
     private HVM
-    private isDebug = false
-    private output?:(out:string) => void
-    private input?:() => Promise<string>
-    
+    private output?: (out:string) => void
+    private input?: () => Promise<string>
+    private clock = (state:HVMState) => {}
+
     constructor() {
 
         this.HVM = new HVM()
@@ -33,20 +34,32 @@ class HVC {
 
     }
 
-    private async runner(debug?:boolean, delay?:number) {
+    public addEventClock(call:(HVM:HVMState) => void) {
 
-        this.isDebug == (delay ?? 0) > 0
+        this.clock = call
+
+    }
+
+    private async runner(delay?:number) {
+
         this.HVM = new HVM()
         this.HVM.setDelay(delay ?? 0)
         this.HVM.portaCartoes.entrada = this.input
         this.HVM.folhaDeSaida.saida = this.output
+        this.HVM.clock = this.clock
         await this.HVM.run(this.code)
 
     }
 
     public async run() {
 
-        await this.runner(false)
+        await this.runner()
+
+    }
+
+    public async debug(delay:number) {
+
+        await this.runner(delay)
 
     }
 
@@ -76,7 +89,10 @@ class HVC {
 
     public back() {
 
-        this.HVM.epi.registrar(this.HVM.epi.lerRegistro() - 1)
+        const hvm = this.HVM.stack.pop()
+
+        if (hvm)
+            this.HVM = hvm
 
     }
     
@@ -96,17 +112,12 @@ class HVC {
 
     }
 
-    public getDebug() {
-
-        return this.isDebug
-
-    }
-
 }
 
 export {
     HVC,
     HVM,
+    HVMState,
     Calculadora,
     Chico,
     EPI,

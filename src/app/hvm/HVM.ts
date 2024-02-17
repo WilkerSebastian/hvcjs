@@ -13,6 +13,9 @@ export default class HVM {
 
     private state:HVMState = 'DESLIGADO'
 
+    public stack: HVM[] = []
+    public clock = (state:HVMState) => {}
+
     public calculadora = new Calculadora()
     public chico = new Chico()
     public epi = new EPI()
@@ -32,15 +35,17 @@ export default class HVM {
 
     private async executable() {
 
-        let cache = 0
+        let alreadyPerformed = false
 
         const syntax = new DrawerLanguage()
 
         this.state = "CARGA"
 
-        await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay);   
+        await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay, this.clock);   
         
         this.state = "EXECUÇÃO"
+
+        this.clock(this.state)
         
         do {
     
@@ -48,6 +53,8 @@ export default class HVM {
                 await sleep(this.delay)
 
             let token:DLToken
+
+            let cache = this.epi.lerRegistro()
 
             if (this.state == 'EXECUÇÃO')
                 token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
@@ -57,11 +64,22 @@ export default class HVM {
             const instrucao = token.getType()
 
             const EE = token.getValue()
-
+            
             if (cache != this.epi.lerRegistro())
-                this.state = await this.interpetInstruction(instrucao, EE)
+                alreadyPerformed = false
 
-            cache = this.epi.lerRegistro()
+            if (!alreadyPerformed) {
+
+                this.state = await this.interpetInstruction(instrucao, EE);
+
+                this.stack.push(this)
+
+                this.clock(this.state)
+
+                if (cache == this.epi.lerRegistro())
+                    alreadyPerformed = true
+
+            }
 
         } while(this.state != "DESLIGADO");
 
@@ -127,4 +145,5 @@ export default class HVM {
 
     }
 
+    
 }

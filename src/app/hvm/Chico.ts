@@ -7,9 +7,9 @@ import HVMState from "../state/HVMState";
 
 export default class Chico {
 
-    public carga(gaveteiro:Gaveteiro, portaCartao:PortaCartoes, delay:number){
+    public carga(gaveteiro:Gaveteiro, portaCartao:PortaCartoes, delay:number, call:(state:HVMState) => void){
         
-        return gaveteiro.carga(portaCartao, delay);
+        return gaveteiro.carga(portaCartao, delay, call);
     }
 
     public async proximaInstrucao(gaveteiro:Gaveteiro , epi:EPI) {

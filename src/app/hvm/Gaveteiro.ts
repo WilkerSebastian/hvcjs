@@ -1,3 +1,4 @@
+import HVMState from "../state/HVMState";
 import { sleep } from "../utils/sleep";
 import PortaCartoes from "./PortaCartoes";
 
@@ -19,7 +20,7 @@ export default class Gaveteiro {
 
     }
 
-    public async carga(portaCartao:PortaCartoes, delay:number){
+    public async carga(portaCartao:PortaCartoes, delay:number, call:(state:HVMState) => void){
       
       let index = 0
       let final = false;
@@ -30,10 +31,14 @@ export default class Gaveteiro {
           await sleep(delay);
         
         const cartao = portaCartao.lerCartao()
+
+        call("CARGA")
         
         if (cartao) {
 
           this.registrar(index, cartao)
+
+          call("CARGA")
           
           final = cartao == "000"
 
