@@ -13,6 +13,11 @@
   "repository": "https://github.com/WilkerSebastian/HVC-web",
   "author": "WilkerSebastian <wilkerafonso2005@gmail.com>",
   "license": "MIT",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.MD"
+  ],
   "keywords": [
     "HVC",
     "assembly",
