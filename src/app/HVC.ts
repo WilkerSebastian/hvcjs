@@ -117,7 +117,6 @@ class HVC {
 export {
     HVC,
     HVM,
-    HVMState,
     Calculadora,
     Chico,
     EPI,
