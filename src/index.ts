@@ -6,6 +6,7 @@ import Chico from "./hvm/Chico";
 import FolhaDeSaida from "./hvm/FolhaDeSaida";
 import Gaveteiro from "./hvm/Gaveteiro";
 import PortaCartoes from "./hvm/PortaCartoes";
+import HVMState from "./state/HVMState";
 
 export default {
     HVC,
@@ -26,5 +27,6 @@ export {
     EPI,
     FolhaDeSaida,
     Gaveteiro,
-    PortaCartoes
+    PortaCartoes,
+    HVMState
 }
