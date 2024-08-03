@@ -1,16 +1,10 @@
-import Calculadora from "./hvm/Calculadora"
-import Chico from "./hvm/Chico"
-import EPI from "./hvm/EPI"
-import FolhaDeSaida from "./hvm/FolhaDeSaida"
-import Gaveteiro from "./hvm/Gaveteiro"
 import HVM from "./hvm/HVM"
-import PortaCartoes from "./hvm/PortaCartoes"
 import HVMState from "./state/HVMState"
 
 /**
  * A classe HVC controla a execução de uma máquina virtual do computador gaveta HVM.
  */
-class HVC {
+export default class HVC {
 
     private code
     private HVM
@@ -148,15 +142,4 @@ class HVC {
         return this.HVM
     }
 
-}
-
-export {
-    HVC,
-    HVM,
-    Calculadora,
-    Chico,
-    EPI,
-    FolhaDeSaida,
-    Gaveteiro,
-    PortaCartoes
 }

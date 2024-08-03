@@ -1,6 +1,8 @@
 // Testes para linguagem de gaveta
+// TODO: Dividir os testes em outros arquivos
+import { describe, it, expect } from "bun:test"
 
-import {HVC} from "../../app/HVC";
+import { HVC } from "../dist/index.mjs"
 
 const hvc = new HVC()
 

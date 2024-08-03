@@ -1,14 +1,14 @@
 {
   "name": "hvcjs",
   "version": "1.2.0",
-  "source": "src/app/HVC.ts",
-  "main": "dist/HVC.js",
-  "module": "dist/esm/HVC.js",
-  "types": "dist/HVC.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "description": "hvc web version",
   "scripts": {
-    "test": "jest",
-    "build": "parcel build"
+    "test": "bun test",
+    "build": "bun run build.config.ts"
   },
   "repository": "https://github.com/WilkerSebastian/HVC-web",
   "author": "WilkerSebastian <wilkerafonso2005@gmail.com>",
@@ -19,18 +19,15 @@
     "README.MD"
   ],
   "keywords": [
+    "bun",
     "HVC",
     "assembly",
     "executable",
     "compiler"
   ],
   "devDependencies": {
-    "@parcel/packager-ts": "2.10.3",
-    "@parcel/transformer-typescript-types": "2.10.3",
-    "@types/jest": "^29.5.11",
-    "jest": "^29.7.0",
-    "parcel": "^2.10.3",
-    "ts-jest": "^29.1.1",
+    "@types/bun": "^1.1.6",
+    "tsup": "^8.2.4",
     "typescript": "^5.3.3"
   }
 }
