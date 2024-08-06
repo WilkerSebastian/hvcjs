@@ -3,7 +3,7 @@
 O hvcjs é uma versão modularizada do compilador <a href="https://github.com/WilkerSebastian/HV-compiler">HVC</a> original, projetado para ser disponibilizado como um módulo npm. Essa abordagem permite a distribuição eficiente e a manutenção das ferramentas proprietárias desenvolvidas pela nossa equipe.
 
 ### Instalação
-Para instalar o hvsjs, utilize o seguinte comando no terminal:
+Para instalar o hvcjs, utilize o seguinte comando no terminal:
 ```bash
 npm i hvcjs
 ```
