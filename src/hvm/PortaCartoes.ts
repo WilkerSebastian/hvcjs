@@ -5,8 +5,12 @@ export default class PortaCartoes {
 
     public async inserir(...cartoes: string[]){
         
-        cartoes.forEach(e =>{
-            this.conteudo.push(e);
+        cartoes.forEach(carto =>{
+
+            if (/^(?:\d{3}|0-\d{1,3})$/.test(carto))
+                throw new Error(`Inserção de um formato desconhecido cartão, conteudo do cartão: ${carto}`);
+
+            this.conteudo.push(carto);
         })
         
     }
