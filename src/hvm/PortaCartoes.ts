@@ -7,10 +7,11 @@ export default class PortaCartoes {
         
         cartoes.forEach(carto =>{
 
-            if (/^(?:\d{3}|0-\d{1,3})$/.test(carto))
+            if (/^(?:\d{1,3}|0-\d{1,3})$/.test(carto))
                 throw new Error(`Inserção de um formato desconhecido cartão, conteudo do cartão: ${carto}`);
-
+                
             this.conteudo.push(carto);
+            
         })
         
     }
