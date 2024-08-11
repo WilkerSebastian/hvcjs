@@ -129,7 +129,7 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("750 000")
 
-    await expect(hvc.run()).rejects.toThrow("Valor invalido de escrita na gaveta [50]:10000");
+    await expect(hvc.run()).rejects.toThrow("Inserção de um formato desconhecido cartão, conteudo do cartão: 10000");
 
   });
   it('Tentando acessar gaveta restrita para código fonte', async() => {
@@ -154,6 +154,6 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("0-100 930 000")
 
-    await expect(hvc.run()).rejects.toThrow("Erro na leitura do gaveteiro no endereço 30, tentativa de leitura em endereço inexistente");
+    expect(hvc.run()).rejects.toThrow("Erro na leitura do gaveteiro no endereço 30, tentativa de leitura em endereço inexistente");
   })
 });

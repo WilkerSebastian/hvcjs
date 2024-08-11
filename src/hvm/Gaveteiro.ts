@@ -31,7 +31,7 @@ export default class Gaveteiro {
         await sleep(delay);
       
       const cartao = portaCartao.lerCartao()
-
+      
       call("CARGA")
       
       if (cartao) {

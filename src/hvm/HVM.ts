@@ -27,7 +27,7 @@ export default class HVM {
 
     public async run(code:string) {
 
-        this.portaCartoes.inserir(...code.split(/\s+/))
+        await this.portaCartoes.inserir(...code.split(/\s+/))
 
         await this.executable()
 
