@@ -2,7 +2,6 @@ type HVMState =
 "CARGA" |
 "EXECUÇÃO" |
 "ESPERANDO" |
-"DESLIGADO" |
-"DEPURAÇÃO"
-
+"DESLIGADO"
+export type HVM_mode = "DEPURAÇÃO" | "EXECUÇÃO"
 export default HVMState
