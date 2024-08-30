@@ -20,9 +20,9 @@ export default class Debugger{
 
         this.nStages -= 1;
     }
-    public storeStage(hvm:HVM, estadoAtual:number){
+    public storeStage(hvm:HVM, enderecoAtual:number){
 
-        this.estados.push(new DAO(hvm, estadoAtual))
+        this.estados.push(new DAO(hvm, enderecoAtual))
         this.nStages += 1;
     }
     

@@ -6,9 +6,9 @@ export default class DAO{
     folhaDeSaida:string;
     portaCartoes:string[] = [];
     acumulador:number;
-    estadoAtual:number;
+    enderecoAtual:number;
 
-    constructor(hvm:HVM, estadoAtual:number){
+    constructor(hvm:HVM, enderecoAtual:number){
         
         this.valorEpi = hvm.epi.lerRegistro();
         this.folhaDeSaida = hvm.folhaDeSaida.getText();
@@ -21,6 +21,6 @@ export default class DAO{
         for(let c in hvm.portaCartoes.getCartoes()){
             this.portaCartoes.push(c);
         }
-        this.estadoAtual = estadoAtual;
+        this.enderecoAtual = enderecoAtual;
     }
 }
