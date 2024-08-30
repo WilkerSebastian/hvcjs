@@ -16,6 +16,14 @@ export default class PortaCartoes {
         
     }
 
+    public getCartoes(){
+        return this.conteudo;
+    }
+
+    public setCartoes(cartoes:string[]){
+        this.conteudo = cartoes;
+    }
+
     public lerCartao() {
 
         return this.conteudo.shift()

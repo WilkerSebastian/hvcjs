@@ -74,6 +74,12 @@ export default class Gaveteiro {
 
   }
 
+  public setGavetas(gvts:string[]){
+    for(let i = 0; i < gvts.length; i++){
+      this.gavetas[i] = gvts[i]
+    }
+  }
+
   public ler(endereco: number){
 
     if (endereco < 0 || endereco > this.gavetas.length || !this.gavetas[endereco])   
