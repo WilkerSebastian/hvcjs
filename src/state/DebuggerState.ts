@@ -1,0 +1,3 @@
+type DebuggerStage = 
+"PARADO" |
+"EXECUTANDO"
