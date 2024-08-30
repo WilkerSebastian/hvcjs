@@ -4,18 +4,22 @@ import EPI from "./EPI"
 import FolhaDeSaida from "./FolhaDeSaida"
 import Gaveteiro from "./Gaveteiro"
 import PortaCartoes from "./PortaCartoes"
-import HVMState from "../state/HVMState"
+import HVMState, { HVM_mode } from "../state/HVMState"
 import { sleep } from "../utils/sleep"
 import DrawerLanguage from "../syntax/language/DrawerLanguage"
 import DLToken, { DLType } from "../syntax/tokens/DLToken"
+import Debugger from "./Debugger"
+import DebuggerState from "../state/DebuggerState"
 
 export default class HVM {
 
     private state:HVMState = 'DESLIGADO'
+    private mode:HVM_mode = "EXECUÇÃO"
 
     public stack: HVM[] = []
     public clock = (state:HVMState) => {}
 
+    public debugger = new Debugger()
     public calculadora = new Calculadora()
     public chico = new Chico()
     public epi = new EPI()
@@ -25,20 +29,44 @@ export default class HVM {
 
     private delay = 0
 
-    public async run(code:string) {
+    public async run(code:string, mode:HVM_mode = "EXECUÇÃO", debugState:DebuggerState = "EXECUTANDO") {
 
         await this.portaCartoes.inserir(...code.split(/\s+/))
 
+        this.mode = mode;
         await this.executable()
-
+    }
+    public getMode(){
+        return this.mode
     }
 
-    private async executable() {
-
-        let alreadyPerformed = false
+    public async executarPasso(){
 
         const syntax = new DrawerLanguage()
+        if (this.delay > 0) 
+            await sleep(this.delay)
 
+        let token:DLToken
+
+        if (this.state == 'EXECUÇÃO')
+            token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
+        else
+            token = syntax.lexer(this.gaveteiro.getGavetas()[this.epi.lerRegistro()])
+
+        const instrucao = token.getType()
+
+        const EE = token.getValue()
+
+        this.state = await this.interpetInstruction(instrucao, EE);
+
+        this.stack.push(this)
+
+        this.clock(this.state)
+        
+        return this.state;
+    }
+    
+    private async carga(){
         this.state = "CARGA"
 
         await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay, this.clock);   
@@ -46,42 +74,34 @@ export default class HVM {
         this.state = "EXECUÇÃO"
 
         this.clock(this.state)
+    }
+
+    public async execute(){
         
-        do {
-    
-            if (this.delay > 0) 
-                await sleep(this.delay)
+        if(this.mode != "DEPURAÇÃO")
+            return;
 
-            let token:DLToken
+        while(this.debugger.getState() == "EXECUTANDO"){
+                
+            this.state = await this.executarPasso()
+        }
+    }
 
-            let cache = this.epi.lerRegistro()
+    private async executable() {
 
-            if (this.state == 'EXECUÇÃO')
-                token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
-            else
-                token = syntax.lexer(this.gaveteiro.getGavetas()[this.epi.lerRegistro()])
-
-            const instrucao = token.getType()
-
-            const EE = token.getValue()
-            
-            if (cache != this.epi.lerRegistro())
-                alreadyPerformed = false
-
-            if (!alreadyPerformed) {
-
-                this.state = await this.interpetInstruction(instrucao, EE);
-
-                this.stack.push(this)
-
-                this.clock(this.state)
-
-                if (cache == this.epi.lerRegistro())
-                    alreadyPerformed = true
-
+        this.carga()
+        
+        if(this.mode == "EXECUÇÃO")
+            while(this.state != "DESLIGADO")
+            {
+                this.state = await this.executarPasso()
             }
-
-        } while(this.state != "DESLIGADO");
+        else if(this.mode == "DEPURAÇÃO"){
+            while(this.debugger.getState() == "EXECUTANDO"){
+                
+                this.state = await this.executarPasso()
+            }
+        }
 
     }
 
