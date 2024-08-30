@@ -1,14 +1,23 @@
+import DebuggerState from "../state/DebuggerState";
 import DAO from "./DAO";
 import HVM from "./HVM";
 
 export default class Debugger{
     private estados:DAO[] = [];
     nStages:number = 0;
+    private state:DebuggerState = "EXECUTANDO"
+    
+    public setState(state:DebuggerState){
+        this.state = state
+    }
+    public getState(){
+        return this.state;
+    }
 
-    public loadLastStage(hvm:HVM){
+    public loadLastStage(hvm:HVM):number{
 
         if(this.nStages == 0)
-            return;
+            return -1;
         
         const estado = this.estados.pop()
 
@@ -19,9 +28,13 @@ export default class Debugger{
         hvm.epi.registrar(estado!.valorEpi)
 
         this.nStages -= 1;
-    }
-    public storeStage(hvm:HVM, enderecoAtual:number){
 
+        return estado!.enderecoAtual;
+    }
+    public nextStage(hvm:HVM){
+
+        const enderecoAtual = hvm.epi.lerRegistro()
+        hvm.executarPasso()
         this.estados.push(new DAO(hvm, enderecoAtual))
         this.nStages += 1;
     }
