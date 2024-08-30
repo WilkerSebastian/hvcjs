@@ -1,5 +1,5 @@
 import HVM from "./hvm/HVM"
-import HVMState from "./state/HVMState"
+import HVMState, { HVM_mode } from "./state/HVMState"
 
 /**
  * A classe HVC controla a execução de uma máquina virtual do computador gaveta HVM.
@@ -52,14 +52,14 @@ export default class HVC {
 
     }
 
-    private async runner(delay?:number) {
+    private async runner(mode?:HVM_mode, delay?:number) {
 
         this.HVM = new HVM()
         this.HVM.setDelay(delay ?? 0)
         this.HVM.portaCartoes.entrada = this.input
         this.HVM.folhaDeSaida.saida = this.output
         this.HVM.clock = this.clock
-        await this.HVM.run(this.code)
+        await this.HVM.run(this.code, mode)
 
     }
 
@@ -78,7 +78,7 @@ export default class HVC {
      */
     public async debug(delay:number) {
 
-        await this.runner(delay)
+        await this.runner("DEPURAÇÃO", delay)
 
     }
 
@@ -93,29 +93,35 @@ export default class HVC {
      * Pausa a execução da HVM.
      */
     public stop(): void {
-        this.HVM.setState("ESPERANDO")
+        if(this.HVM.getMode() != "DEPURAÇÃO")
+            return;
+        this.HVM.debugger.setState("PARADO")
     }
 
     /**
      * Continua a execução da HVM.
      */
-    public continue(): void {
-        this.HVM.setState("EXECUÇÃO")
+    public async continue() {
+        this.HVM.debugger.setState("EXECUTANDO");
+        await this.HVM.execute()
     }
 
     /**
      * Avança para o próximo estado da HVM.
      */
-    public next(): void {               
-        this.HVM.epi.registrar(this.HVM.epi.lerRegistro() + 1)
+    public next(): void {
+        if(this.HVM.getMode() != "DEPURAÇÃO")
+            return;               
+        this.HVM.debugger.nextStage(this.HVM)
     }
 
     /**
      * Reverte para o estado anterior da HVM.
      */
-    public back(): void {
-        const hvm = this.HVM.stack.pop()
-        if (hvm) this.HVM = hvm
+    public back() {
+        if(this.HVM.getMode() != "DEPURAÇÃO")
+            return -1;
+        return this.HVM.debugger.loadLastStage(this.HVM)
     }
     
     /**
