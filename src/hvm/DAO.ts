@@ -13,14 +13,16 @@ export default class DAO{
         this.valorEpi = hvm.epi.lerRegistro();
         this.folhaDeSaida = hvm.folhaDeSaida.getText();
         this.acumulador = hvm.calculadora.getAcumulador();
+        
+        this.gaveteiro = new Array<string>(hvm.gaveteiro.getGavetas().length)
 
-        for(let g in hvm.gaveteiro.getGavetas()){
-            this.gaveteiro.push(g);
-        }
+        for(let i = 0; i < hvm.gaveteiro.getGavetas().length; i++)
+            this.gaveteiro[i] = hvm.gaveteiro.getGavetas()[i]
 
         for(let c in hvm.portaCartoes.getCartoes()){
             this.portaCartoes.push(c);
         }
         this.enderecoAtual = enderecoAtual;
+        
     }
 }
