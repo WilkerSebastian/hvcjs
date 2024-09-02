@@ -157,3 +157,66 @@ describe('Ocorrência de falhas', () => {
     expect(hvc.run()).rejects.toThrow("Erro na leitura do gaveteiro no endereço 30, tentativa de leitura em endereço inexistente");
   })
 });
+
+describe('Depurador', ()=>{
+  it('Executar direto', async() =>{
+    entradas = []
+    saida = ""
+
+    hvc.setCode("0-500 150 0-010 250 150 850 000")
+    // await hvc.debug(0)
+    
+    // expect(saida).toBe("510\n");
+  })
+
+  it('Pausar e voltar', async() =>{
+
+    entradas = []
+    saida = ""
+
+    hvc.setCode("0-500 150 850 0-010 250 150 850 000")
+
+    // setTimeout(() => {
+    //   hvc.stop()
+    // }, 1000);
+    // setTimeout(() => {
+    //   hvc.continue()
+    // }, 2000);
+    // await hvc.debug(80,"RODANDO")
+    // expect(saida).toBe("500\n");
+
+    // setTimeout(() => {
+      
+    //   expect(saida).toBe("500\n510\n");
+    // }, 4000);
+
+  })
+
+  it("Avançar e retornar estados", async() =>{
+    entradas = []
+    saida = ""
+
+    hvc.setCode("0-500 150 850 0-010 250 150 850 000")
+    await hvc.debug(0, "PAUSADO")
+    
+    console.log(hvc.getHVM().debugger.nStages); //0
+
+    await hvc.next()
+    expect(hvc.getHVM().calculadora.getAcumulador()).toBe(500)
+    console.log(hvc.getHVM().debugger.nStages); //1
+
+    await hvc.next()
+    expect(hvc.getHVM().gaveteiro.getGavetas()[50]).toBe("500")
+    console.log(hvc.getHVM().debugger.nStages); //2
+
+    await hvc.back()
+    console.log(hvc.getHVM().debugger.nStages); //1
+    
+    expect(hvc.getHVM().gaveteiro.getGavetas()[50]).toBeUndefined()
+
+    await hvc.next()
+    console.log(hvc.getHVM().debugger.nStages); //0
+    expect(hvc.getHVM().calculadora.getAcumulador()).toBe(500)
+
+  })
+})
