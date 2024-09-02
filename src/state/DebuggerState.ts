@@ -1,5 +1,5 @@
 type DebuggerState = 
-"PARADO" |
-"EXECUTANDO"
+"PAUSADO" |
+"RODANDO"
 
 export default DebuggerState
