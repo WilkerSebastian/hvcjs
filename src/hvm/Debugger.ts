@@ -20,13 +20,11 @@ export default class Debugger{
             return -1;
         
         const estado = this.estados.pop()
-        console.log("volta para:", estado);
         
         hvm.calculadora.acumular(estado!.acumulador)
         hvm.folhaDeSaida.imprimir(estado!.folhaDeSaida)
         
         hvm.gaveteiro.setGavetas(estado!.gaveteiro)
-        
         
         hvm.epi.registrar(estado!.valorEpi)
 
@@ -40,8 +38,6 @@ export default class Debugger{
         this.estados.push(new DAO(hvm, enderecoAtual))
         this.nStages += 1;
         await hvm.executarPasso()
-
-        console.log(this.estados[this.nStages -1]);
         
     }
     
