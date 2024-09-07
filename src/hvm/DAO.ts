@@ -19,9 +19,6 @@ export default class DAO{
         for(let i = 0; i < hvm.gaveteiro.getGavetas().length; i++)
             this.gaveteiro[i] = hvm.gaveteiro.getGavetas()[i]
 
-        for(let c in hvm.portaCartoes.getCartoes()){
-            this.portaCartoes.push(c);
-        }
         this.enderecoAtual = enderecoAtual;
         
     }
