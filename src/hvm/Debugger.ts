@@ -26,7 +26,7 @@ export default class Debugger{
         hvm.folhaDeSaida.imprimir(estado!.folhaDeSaida)
         
         hvm.gaveteiro.setGavetas(estado!.gaveteiro)
-        // console.log("gavetosas:",hvm.gaveteiro.getGavetas());
+        
         
         hvm.epi.registrar(estado!.valorEpi)
 
