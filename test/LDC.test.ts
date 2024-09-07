@@ -183,19 +183,19 @@ describe('Depurador', ()=>{
 
     hvc.setCode("0-500 150 850 0-010 250 150 850 000")
 
-    // setTimeout(() => {
-    //   hvc.stop()
-    // }, 1000);
-    // setTimeout(() => {
-    //   hvc.continue()
-    // }, 2000);
-    // await hvc.debug(80,"RODANDO")
-    // expect(saida).toBe("500\n");
+    setTimeout(() => {
+      hvc.stop()
+    }, 1000);
+    setTimeout(() => {
+      hvc.continue()
+    }, 2000);
+    await hvc.debug(80,"RODANDO")
+    expect(saida).toBe("500\n");
 
-    // setTimeout(() => {
+    setTimeout(() => {
       
-    //   expect(saida).toBe("500\n510\n");
-    // }, 4000);
+      expect(saida).toBe("500\n510\n");
+    }, 4000);
 
   })
   
@@ -241,8 +241,6 @@ describe('Depurador', ()=>{
     await hvc.next()
     expect(hvc.getHVM().gaveteiro.getGavetas()[22]).toBe("35")
 
-    console.log(hvc.getHVM().gaveteiro.getGavetas());
-    console.log(hvc.getHVM().calculadora.getAcumulador());
   })
   it("Avançar e voltar estados EPI", async ()=>{
 
