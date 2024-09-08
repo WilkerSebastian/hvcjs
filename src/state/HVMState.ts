@@ -2,6 +2,6 @@ type HVMState =
 "CARGA" |
 "EXECUÇÃO" |
 "ESPERANDO" |
-"DESLIGADO" 
-
+"DESLIGADO" |
+"DEPURAÇÃO"
 export default HVMState

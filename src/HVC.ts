@@ -1,4 +1,5 @@
 import HVM from "./hvm/HVM"
+import DebuggerState from "./state/DebuggerState"
 import HVMState from "./state/HVMState"
 
 /**
@@ -76,9 +77,17 @@ export default class HVC {
      * Executa a HVM em modo de depuração com atraso especificado.
      * @param delay Tempo de atraso em milissegundos.
      */
-    public async debug(delay:number) {
+    public async debug(delay:number, status?:DebuggerState) {
 
-        await this.runner(delay)
+        let state = status ? status:this.HVM.debugger.getState()
+        this.HVM = new HVM()
+        this.HVM.setDelay(delay ?? 0)
+        this.HVM.portaCartoes.entrada = this.input
+        this.HVM.folhaDeSaida.saida = this.output
+        this.HVM.clock = this.clock
+
+        this.HVM.debugger.setState(state)
+        await this.HVM.run_debug(this.code)
 
     }
 
@@ -92,30 +101,36 @@ export default class HVC {
     /**
      * Pausa a execução da HVM.
      */
-    public stop(): void {
-        this.HVM.setState("ESPERANDO")
+    public async stop() {
+        console.log("parou!");
+        
+        this.HVM.debugger.setState("PAUSADO")
     }
 
     /**
      * Continua a execução da HVM.
      */
-    public continue(): void {
-        this.HVM.setState("EXECUÇÃO")
+    public async continue() {
+        console.log("Voltou");
+        
+        this.HVM.debugger.setState("RODANDO");
+        await this.HVM.execute_debug()
     }
 
     /**
-     * Avança para o próximo estado da HVM.
+     * Avança para o próximo estágio da HVM.
      */
-    public next(): void {               
-        this.HVM.epi.registrar(this.HVM.epi.lerRegistro() + 1)
+    public async next(){
+                      
+        await this.HVM.debugger.nextStage(this.HVM)
     }
 
     /**
-     * Reverte para o estado anterior da HVM.
+     * Reverte para o estágio anterior da HVM.
      */
-    public back(): void {
-        const hvm = this.HVM.stack.pop()
-        if (hvm) this.HVM = hvm
+    public async back() {
+        
+        return await this.HVM.debugger.loadLastStage(this.HVM)
     }
     
     /**

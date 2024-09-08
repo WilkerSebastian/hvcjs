@@ -8,10 +8,16 @@ const hvc = new HVC()
 
 let entradas:string[] = []
 let saida = ""
+let pos_entrada = 0
 
 hvc.addEventInput(async() => {
 
-  return entradas.shift() as string
+  if(entradas.length >= pos_entrada){
+    pos_entrada += 1;
+    return entradas[pos_entrada -1] as string
+  }
+
+  return ""
 
 })
 
@@ -125,6 +131,7 @@ describe('Ocorrência de falhas', () => {
   it('Ultrapassando limite de valor de entrada', async() => {
 
     entradas = ["10000"]
+    pos_entrada = 0
     saida = ""
 
     hvc.setCode("750 000")
@@ -157,3 +164,138 @@ describe('Ocorrência de falhas', () => {
     expect(hvc.run()).rejects.toThrow("Erro na leitura do gaveteiro no endereço 30, tentativa de leitura em endereço inexistente");
   })
 });
+
+describe('Depurador', ()=>{
+  it('Executar direto', async() =>{
+    entradas = []
+    saida = ""
+
+    hvc.setCode("0-500 150 0-010 250 150 850 000")
+    // await hvc.debug(0)
+    
+    // expect(saida).toBe("510\n");
+  })
+
+  it('Pausar e voltar', async() =>{
+
+    entradas = []
+    saida = ""
+
+    hvc.setCode("0-500 150 850 0-010 250 150 850 000")
+
+    setTimeout(() => {
+      hvc.stop()
+    }, 1000);
+    setTimeout(() => {
+      hvc.continue()
+    }, 2000);
+    await hvc.debug(80,"RODANDO")
+    expect(saida).toBe("500\n");
+
+    setTimeout(() => {
+      
+      expect(saida).toBe("500\n510\n");
+    }, 4000);
+
+  })
+  
+  it("Avançar e retornar estados acumulador e gaveteiro", async() =>{
+    entradas = ["020","005"]
+    pos_entrada = 0
+    saida = ""
+
+    hvc.setCode("0-010 720 721 220 221 122 000")
+    await hvc.debug(0, "PAUSADO")
+
+    await hvc.next()
+    expect(hvc.getHVM().calculadora.getAcumulador()).toBe(10)
+
+    await hvc.next()
+    expect(hvc.getHVM().gaveteiro.getGavetas()[20]).toBe("020")
+
+    await hvc.next()
+    expect(hvc.getHVM().gaveteiro.getGavetas()[21]).toBe("005")
+
+    await hvc.back()
+    pos_entrada -=1
+    expect(hvc.getHVM().gaveteiro.getGavetas()[21]).toBeUndefined()
+
+    await hvc.back()
+    pos_entrada -=1
+    expect(hvc.getHVM().gaveteiro.getGavetas()[20]).toBeUndefined()
+    
+    await hvc.next()
+    expect(hvc.getHVM().gaveteiro.getGavetas()[20]).toBe("020")
+    await hvc.next()
+    
+    await hvc.next()
+    expect(hvc.getHVM().calculadora.getAcumulador()).toBe(30)
+    
+    await hvc.back()
+    expect(hvc.getHVM().calculadora.getAcumulador()).toBe(10)
+
+    await hvc.next()
+    await hvc.next()
+    expect(hvc.getHVM().calculadora.getAcumulador()).toBe(35)
+
+    await hvc.next()
+    expect(hvc.getHVM().gaveteiro.getGavetas()[22]).toBe("35")
+
+  })
+  it("Avançar e voltar estados EPI", async ()=>{
+
+    entradas = ["005","010"]
+    pos_entrada = 0
+    saida = ""
+    hvc.setCode("0-010 720 320 601 000")
+    await hvc.debug(0, "PAUSADO")
+
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+    expect(hvc.getHVM().epi.lerRegistro()).toBe(3)
+
+    await hvc.next()
+    expect(hvc.getHVM().epi.lerRegistro()).toBe(1)
+    
+    await hvc.back()
+    expect(hvc.getHVM().epi.lerRegistro()).toBe(3)
+
+    await hvc.next()
+    expect(hvc.getHVM().epi.lerRegistro()).toBe(1)
+
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+
+    expect(hvc.getHVM().calculadora.getAcumulador()).toBe(-5)
+
+    await hvc.next()
+
+    expect(hvc.getHVM().getState()).toBe("DESLIGADO")
+    
+  })
+  it("Avançar e voltar estados saída", async ()=>{
+
+    entradas = ["005","010"]
+    pos_entrada = 0
+    saida = ""
+    hvc.setCode("720 820 720 820 000")
+    await hvc.debug(0, "PAUSADO")
+
+    await hvc.next()
+    await hvc.next()
+
+    expect(saida).toBe("005\n")
+
+    await hvc.next()
+    await hvc.next()
+
+    expect(saida).toBe("005\n010\n")
+
+    await hvc.back()
+    expect(saida).toBe("005\n010\n005\n")
+    await hvc.next()
+    expect(saida).toBe("005\n010\n005\n010\n")
+  })
+})

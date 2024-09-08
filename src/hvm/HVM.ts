@@ -8,6 +8,8 @@ import HVMState from "../state/HVMState"
 import { sleep } from "../utils/sleep"
 import DrawerLanguage from "../syntax/language/DrawerLanguage"
 import DLToken, { DLType } from "../syntax/tokens/DLToken"
+import Debugger from "./Debugger"
+import DebuggerState from "../state/DebuggerState"
 
 export default class HVM {
 
@@ -16,6 +18,7 @@ export default class HVM {
     public stack: HVM[] = []
     public clock = (state:HVMState) => {}
 
+    public debugger = new Debugger()
     public calculadora = new Calculadora()
     public chico = new Chico()
     public epi = new EPI()
@@ -28,61 +31,73 @@ export default class HVM {
     public async run(code:string) {
 
         await this.portaCartoes.inserir(...code.split(/\s+/))
-
         await this.executable()
+    }
 
+    public async run_debug(code:string){
+        await this.portaCartoes.inserir(...code.split(/\s+/))
+
+        await this.carga()
+        this.state = "DEPURAÇÃO"
+
+        await this.execute_debug()
+    }
+
+    public async execute_debug(){
+
+        if(this.debugger.getState() == "PAUSADO"){
+            return;
+        }
+        
+        while(this.state == "DEPURAÇÃO" && this.debugger.getState() == "RODANDO"){
+
+            await this.debugger.nextStage(this)
+        }
+    }
+
+    public async executarPasso(){
+
+        const syntax = new DrawerLanguage()
+        if (this.delay > 0) 
+            await sleep(this.delay)
+
+        let token:DLToken
+
+        if (this.state == 'EXECUÇÃO' || this.state == "DEPURAÇÃO")
+            token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
+        else
+            token = syntax.lexer(this.gaveteiro.getGavetas()[this.epi.lerRegistro()])
+
+        const instrucao = token.getType()
+
+        const EE = token.getValue()
+
+        this.state = await this.interpetInstruction(instrucao, EE);
+
+        this.stack.push(this)
+
+        this.clock(this.state)
+        
+        return this.state;
+    }
+    
+    private async carga(){
+        this.state = "CARGA"
+
+        await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay, this.clock);   
+
+        this.clock(this.state)
     }
 
     private async executable() {
 
-        let alreadyPerformed = false
-
-        const syntax = new DrawerLanguage()
-
-        this.state = "CARGA"
-
-        await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay, this.clock);   
+        await this.carga()
         
         this.state = "EXECUÇÃO"
-
-        this.clock(this.state)
-        
-        do {
-    
-            if (this.delay > 0) 
-                await sleep(this.delay)
-
-            let token:DLToken
-
-            let cache = this.epi.lerRegistro()
-
-            if (this.state == 'EXECUÇÃO')
-                token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
-            else
-                token = syntax.lexer(this.gaveteiro.getGavetas()[this.epi.lerRegistro()])
-
-            const instrucao = token.getType()
-
-            const EE = token.getValue()
-            
-            if (cache != this.epi.lerRegistro())
-                alreadyPerformed = false
-
-            if (!alreadyPerformed) {
-
-                this.state = await this.interpetInstruction(instrucao, EE);
-
-                this.stack.push(this)
-
-                this.clock(this.state)
-
-                if (cache == this.epi.lerRegistro())
-                    alreadyPerformed = true
-
-            }
-
-        } while(this.state != "DESLIGADO");
-
+        while(this.state != "DESLIGADO")
+        {
+            this.state = await this.executarPasso()
+        }
     }
 
     private async interpetInstruction(instrucao:DLType, EE:number): Promise<HVMState> {
@@ -137,6 +152,16 @@ export default class HVM {
 
         this.state = state
 
+    }
+
+    public setDebugState(state:DebuggerState){
+
+        this.debugger.setState(state);
+    }
+
+    public getDebugState(state:DebuggerState){
+        
+        return this.debugger.getState();
     }
 
     public getState() {
