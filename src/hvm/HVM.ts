@@ -38,7 +38,7 @@ export default class HVM {
         await this.portaCartoes.inserir(...code.split(/\s+/))
 
         await this.carga()
-        this.state = "DEPURAÇÃO"
+        this.state = "EXECUÇÃO"
 
         await this.execute_debug()
     }
@@ -49,9 +49,10 @@ export default class HVM {
             return;
         }
         
-        while(this.state == "DEPURAÇÃO" && this.debugger.getState() == "RODANDO"){
+        while(this.state == "EXECUÇÃO" && this.debugger.getState() == "RODANDO"){
 
             await this.debugger.nextStage(this)
+            
         }
     }
 
@@ -63,7 +64,7 @@ export default class HVM {
 
         let token:DLToken
 
-        if (this.state == 'EXECUÇÃO' || this.state == "DEPURAÇÃO")
+        if (this.state == 'EXECUÇÃO')
             token = syntax.lexer(await this.chico.proximaInstrucao(this.gaveteiro, this.epi))
         else
             token = syntax.lexer(this.gaveteiro.getGavetas()[this.epi.lerRegistro()])
