@@ -31,7 +31,7 @@ export default class Calculadora {
     valor = parseInt(valor.toString())
   
     if(valor < -99 || valor > 999) 
-      throw new Error(`Erro calculadora ${valor}. Apenas valores entre 0-999 são aceitos.`);
+      throw new Error(`Erro calculadora ${valor}. Apenas valores entre -99 e 999 são aceitos.`);
         
     this.acumulador = valor;
   

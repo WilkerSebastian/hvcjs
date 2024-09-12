@@ -136,7 +136,7 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("750 000")
 
-    await expect(hvc.run()).rejects.toThrow("Inserção de um formato desconhecido cartão, conteudo do cartão: 10000");
+    await expect(hvc.run()).rejects.toThrow("Inserção de um formato númerico inválido, conteudo do cartão: 10000");
 
   });
   it('Tentando acessar gaveta restrita para código fonte', async() => {

@@ -6,9 +6,17 @@ export default class PortaCartoes {
     public async inserir(...cartoes: string[]){
         
         cartoes.forEach(cartao =>{
+            
+            if (!/^(?:[0-9]{1,3}|-(?:[0-9]{1,2})|0-[0-9]{1,3})$/.test(cartao)) {
 
-            if (!/^(?:[0-9]{1,3}|0-[0-9]{1,3})$/.test(cartao)) 
+                const number_value = Number(cartao)
+
+                if (number_value < -99 || number_value > 999) 
+                    throw new Error(`Inserção de um formato númerico inválido, conteudo do cartão: ${cartao}`);
+
                 throw new Error(`Inserção de um formato desconhecido cartão, conteudo do cartão: ${cartao}`);
+
+            }
                 
             this.conteudo.push(cartao);
 

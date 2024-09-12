@@ -67,7 +67,7 @@ export default class Gaveteiro {
 
     const numeric_value = parseInt(valor)
 
-    if (numeric_value < 0 || numeric_value > 999)
+    if (numeric_value < -99 || numeric_value > 999)
       throw new Error(`Valor invalido de escrita na gaveta [${endereco}]:${numeric_value}`)
 
     this.gavetas[endereco] = valor
