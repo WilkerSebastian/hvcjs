@@ -171,9 +171,9 @@ describe('Depurador', ()=>{
     saida = ""
 
     hvc.setCode("0-500 150 0-010 250 150 850 000")
-    // await hvc.debug(0)
+    await hvc.debug(0, "RODANDO")
     
-    // expect(saida).toBe("510\n");
+    expect(saida).toBe("510\n");
   })
 
   it('Pausar e voltar', async() =>{
@@ -277,10 +277,10 @@ describe('Depurador', ()=>{
   })
   it("Avançar e voltar estados saída", async ()=>{
 
-    entradas = ["005","010"]
+    entradas = []
     pos_entrada = 0
     saida = ""
-    hvc.setCode("720 820 720 820 000")
+    hvc.setCode("720 820 720 820 000 005 010")
     await hvc.debug(0, "PAUSADO")
 
     await hvc.next()
