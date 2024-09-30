@@ -61,8 +61,8 @@ export default class Gaveteiro {
       throw new Error(`Erro de estouro negativo de gavetas, as gabetas vão de 0 a ${this.gavetas.length} registros`);
 
     if((endereco < this.ultimoRestrito) && this.ultimoRestrito > 0){
-        const conteudo = this.ler(endereco);
-        throw new Error(`Erro tentativa de sobrescrita de gaveta que armazena código fonte conteúdo da gaveta(${endereco}): ${conteudo}`);
+      const conteudo = this.ler(endereco);
+      throw new Error(`Erro tentativa de sobrescrita de gaveta que armazena código fonte conteúdo da gaveta(${endereco}): ${conteudo}`);
     }
 
     const numeric_value = parseInt(valor)

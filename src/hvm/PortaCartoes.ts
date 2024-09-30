@@ -17,6 +17,18 @@ export default class PortaCartoes {
                 throw new Error(`Inserção de um formato desconhecido cartão, conteudo do cartão: ${cartao}`);
 
             }
+
+            if (cartao.includes("-")) {
+
+                const [start, end] = cartao.split("-")
+
+                if (start == "0")
+                    cartao = "0-" + end.padStart(3, "0")
+                else 
+                    cartao = "-" + start.padStart(2, "0") 
+
+            } else 
+                cartao = cartao.padStart(3, "0")
                 
             this.conteudo.push(cartao);
 

@@ -39,7 +39,7 @@ describe('Entrada e Saída', () => {
 
       await hvc.run()
 
-      expect(saida).toBe("10\n");
+      expect(saida).toBe("010\n");
 
     });
     it('Ciclo de repetição com saída de 5 a 1', async() => {
@@ -62,7 +62,7 @@ describe('Entrada e Saída', () => {
 
       await hvc.run()
 
-      expect(saida).toBe("25\n");
+      expect(saida).toBe("025\n");
     })
 });
 
