@@ -39,7 +39,7 @@ describe('Entrada e Saída', () => {
 
       await hvc.run()
 
-      expect(saida).toBe("010\n");
+      expect(saida).toBe("10\n");
 
     });
     it('Ciclo de repetição com saída de 5 a 1', async() => {
@@ -62,7 +62,7 @@ describe('Entrada e Saída', () => {
 
       await hvc.run()
 
-      expect(saida).toBe("025\n");
+      expect(saida).toBe("25\n");
     })
 });
 
@@ -239,7 +239,7 @@ describe('Depurador', ()=>{
     expect(hvc.getHVM().calculadora.getAcumulador()).toBe(35)
 
     await hvc.next()
-    expect(hvc.getHVM().gaveteiro.getGavetas()[22]).toBe("35")
+    expect(hvc.getHVM().gaveteiro.getGavetas()[22]).toBe("035")
 
   })
   it("Avançar e voltar estados EPI", async ()=>{
@@ -286,16 +286,16 @@ describe('Depurador', ()=>{
     await hvc.next()
     await hvc.next()
 
-    expect(saida).toBe("005\n")
+    expect(saida).toBe("5\n")
 
     await hvc.next()
     await hvc.next()
 
-    expect(saida).toBe("005\n010\n")
+    expect(saida).toBe("5\n10\n")
 
     await hvc.back()
-    expect(saida).toBe("005\n010\n005\n")
+    expect(saida).toBe("5\n10\n5\n")
     await hvc.next()
-    expect(saida).toBe("005\n010\n005\n010\n")
+    expect(saida).toBe("5\n10\n5\n10\n")
   })
 })

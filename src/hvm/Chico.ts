@@ -35,8 +35,11 @@ export default class Chico {
     public cpAC(calculadora:Calculadora, gaveteiro:Gaveteiro, endereco:number) {
 
         const acumulador = calculadora.getAcumulador();
+
+        if (acumulador < 0)
+            return gaveteiro.registrar(endereco, "-" + (acumulador * -1).toString().padStart(2, '0'));
     
-        return gaveteiro.registrar(endereco, acumulador.toString());
+        return gaveteiro.registrar(endereco, acumulador.toString().padStart(3, "0"));
     
     }
 
@@ -103,7 +106,7 @@ export default class Chico {
     
         const output = gaveteiro.ler(endereco);
     
-        return fs.imprimir(output);
+        return fs.imprimir(parseInt(output).toString());
     
     }
     
