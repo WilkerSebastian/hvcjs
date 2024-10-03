@@ -25,7 +25,7 @@ export default class PortaCartoes {
                 if (start == "0")
                     cartao = "0-" + end.padStart(3, "0")
                 else 
-                    cartao = "-" + start.padStart(2, "0") 
+                    cartao = "-" + end.padStart(2, "0") 
 
             } else 
                 cartao = cartao.padStart(3, "0")
