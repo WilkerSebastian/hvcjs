@@ -27,7 +27,7 @@ export default class Debugger{
         hvm.gaveteiro.setGavetas(estado!.gaveteiro)
         
         hvm.epi.registrar(estado!.valorEpi)
-
+        hvm.portaCartoes.setCartoes(estado!.portaCartoes)
         this.nStages -= 1;
 
         return estado!.enderecoAtual;
