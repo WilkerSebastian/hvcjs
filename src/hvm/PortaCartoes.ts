@@ -1,7 +1,13 @@
 export default class PortaCartoes {
 
+    private call: () => void
     public conteudo:string[] = []
     public entrada?:() => Promise<string>
+
+
+    constructor(call: () => void) {
+        this.call = call
+    }
 
     public async inserir(...cartoes: string[]){
         
@@ -31,6 +37,7 @@ export default class PortaCartoes {
                 cartao = cartao.padStart(3, "0")
                 
             this.conteudo.push(cartao);
+            this.call()
 
         })
         
