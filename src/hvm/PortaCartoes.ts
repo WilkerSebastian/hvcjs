@@ -12,9 +12,9 @@ export default class PortaCartoes {
                 const number_value = Number(cartao)
 
                 if (number_value < -99 || number_value > 999) 
-                    throw new Error(`Inserção de um formato númerico inválido, conteudo do cartão: ${cartao}`);
+                    throw new Error(`Inserção de formato númerico inválido. Conteudo do cartão: ${cartao}`);
 
-                throw new Error(`Inserção de um formato desconhecido cartão, conteudo do cartão: ${cartao}`);
+                throw new Error(`Inserção de um formato desconhecido em cartão. Conteudo do cartão: ${cartao}`);
 
             }
 

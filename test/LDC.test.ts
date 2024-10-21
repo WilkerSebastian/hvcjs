@@ -125,7 +125,7 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-13 0-45 0-34 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-10 0-12 0-13 0-13 0-45 0-34 000")
 
-    await expect(hvc.run()).rejects.toThrow("Erro de sobrecarga de gavetas, limite de 100 registros");
+    await expect(hvc.run()).rejects.toThrow("Sobrecarga de gavetas. Limite de 100 registros");
 
   });
   it('Ultrapassando limite de valor de entrada', async() => {
@@ -136,7 +136,7 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("750 000")
 
-    await expect(hvc.run()).rejects.toThrow("Inserção de um formato númerico inválido, conteudo do cartão: 10000");
+    await expect(hvc.run()).rejects.toThrow("Inserção de um formato númerico inválido. Conteudo do cartão: 10000");
 
   });
   it('Tentando acessar gaveta restrita para código fonte', async() => {
@@ -145,7 +145,7 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("0-100 100 000")
 
-    await expect(hvc.run()).rejects.toThrow("Erro tentativa de sobrescrita de gaveta que armazena código fonte conteúdo da gaveta(0): 0-100");
+    await expect(hvc.run()).rejects.toThrow("Tentativa de sobrescrita em gaveta que armazena código fonte. Conteúdo da gaveta [0]: 0-100");
   })
   it('Operação com gaveta sem valor', async() => {
     entradas = []
@@ -153,7 +153,7 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("0-50 130 031 000")
 
-    await expect(hvc.run()).rejects.toThrow("Erro na leitura do gaveteiro no endereço 31, tentativa de leitura em endereço inexistente");
+    await expect(hvc.run()).rejects.toThrow("Tentativa de leitura em endereço inexistente. Gaveta [31]");
   })
   it('Operação com epi para gaveta sem instrução', async() => {
     entradas = []
@@ -161,7 +161,7 @@ describe('Ocorrência de falhas', () => {
 
     hvc.setCode("0-100 930 000")
 
-    expect(hvc.run()).rejects.toThrow("Erro na leitura do gaveteiro no endereço 30, tentativa de leitura em endereço inexistente");
+    expect(hvc.run()).rejects.toThrow("Tentativa de leitura em endereço inexistente. Gaveta [30]");
   })
 });
 
