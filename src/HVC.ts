@@ -102,7 +102,6 @@ export default class HVC {
      * Pausa a execução da HVM.
      */
     public async stop() {
-        console.log("parou!");
         
         this.HVM.debugger.setState("PAUSADO")
     }
@@ -111,7 +110,6 @@ export default class HVC {
      * Continua a execução da HVM.
      */
     public async continue() {
-        console.log("Voltou");
         
         this.HVM.debugger.setState("RODANDO");
         await this.HVM.execute_debug()
