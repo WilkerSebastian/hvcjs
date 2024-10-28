@@ -43,7 +43,7 @@ export default class Gaveteiro {
         final = cartao == "000"
 
       } else
-        throw new Error("Falha na carga do porta cartões para gaveteiro");
+        throw new Error("Falha na carga do porta cartões para gaveteiro.");
 
       index++
 
@@ -56,19 +56,19 @@ export default class Gaveteiro {
   public registrar(endereco: number, valor: string) {
 
     if(endereco + 1 > this.gavetas.length)
-      throw new Error(`Sobrecarga de gavetas. Limite de ${this.gavetas.length} registros`);
+      throw new Error(`Sobrecarga de gavetas. Limite de ${this.gavetas.length} registros.`);
     else if(endereco < 0)
-      throw new Error(`Estouro negativo de gavetas. As gavetas vão de 0 a ${this.gavetas.length} registros`);
+      throw new Error(`Estouro negativo de gavetas. As gavetas vão de 0 a ${this.gavetas.length} registros.`);
 
     if((endereco < this.ultimoRestrito) && this.ultimoRestrito > 0){
       const conteudo = this.ler(endereco);
-      throw new Error(`Tentativa de sobrescrita em gaveta que armazena código fonte. Conteúdo da gaveta [${endereco}]: ${conteudo}`);
+      throw new Error(`Tentativa de sobrescrita em gaveta que armazena código fonte. Conteúdo da gaveta [${endereco}]: ${conteudo}.`);
     }
 
     const numeric_value = parseInt(valor)
 
     if (numeric_value < -99 || numeric_value > 999)
-      throw new Error(`Valor inválido de escrita em gaveta [${endereco}]:${numeric_value}`)
+      throw new Error(`Valor inválido de escrita em gaveta [${endereco}]:${numeric_value}.`)
 
     this.gavetas[endereco] = valor
 
@@ -83,7 +83,7 @@ export default class Gaveteiro {
   public ler(endereco: number){
 
     if (endereco < 0 || endereco > this.gavetas.length || !this.gavetas[endereco])   
-      throw new Error(`Tentativa de leitura em endereço inexistente. Gaveta [${endereco}]`);
+      throw new Error(`Tentativa de leitura em endereço inexistente. Gaveta [${endereco}].`);
 
 
     return this.gavetas[endereco];

@@ -13,7 +13,7 @@ export default class FolhaDeSaida {
             return
 
         }
-        throw new Error("Nenhuma implementação de saída encontrada")
+        throw new Error("Nenhuma implementação de saída encontrada.")
 
     }
 

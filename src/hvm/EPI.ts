@@ -4,8 +4,8 @@ export default class EPI {
 
     public registrar(registro: number) {
 
-        if (registro < 0) 
-            throw new Error("Erro de sobrecarga da pilha, limite de 100 registros");
+        if (registro < 0 || registro > 99) 
+            throw new Error("Valor inválido no EPI: " + registro.toString() + ".");
 
         this.valor = registro;
         
