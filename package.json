@@ -1,6 +1,6 @@
 {
   "name": "hvcjs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "source": "src/index.ts",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -19,7 +19,8 @@
   "files": [
     "dist",
     "LICENSE",
-    "README.MD"
+    "README.MD",
+    "logo.png"
   ],
   "keywords": [
     "bun",
