@@ -297,5 +297,27 @@ describe('Depurador', ()=>{
     expect(saida).toBe("5\n10\n5\n")
     await hvc.next()
     expect(saida).toBe("5\n10\n5\n10\n")
+
+    hvc.finish()
+  })
+  it("Interromper carga", async()=>{
+    entradas = []
+    saida = ""
+    hvc.setCode("0-800 0-801 0-802 0-803 0-804 0-805 0-806 0-807 0-808 000")
+    
+    setTimeout(()=>{
+      
+      expect(hvc.getHVM().getState()).toBe("CARGA")
+      
+    }, 500)
+    
+    setTimeout(()=>{
+      hvc.finish()
+      expect(hvc.getHVM().getState()).toBe("DESLIGADO")
+      
+    }, 500)
+
+    await hvc.debug(100, "RODANDO")
+    
   })
 })
