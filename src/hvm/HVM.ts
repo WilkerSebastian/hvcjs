@@ -38,9 +38,12 @@ export default class HVM {
         await this.portaCartoes.inserir(...code.split(/\s+/))
 
         await this.carga()
-        this.state = "EXECUÇÃO"
 
-        await this.execute_debug()
+        if(this.state == "CARGA"){
+            
+            this.state = "EXECUÇÃO"
+            await this.execute_debug()
+        }
     }
 
     public async execute_debug(){
@@ -85,8 +88,15 @@ export default class HVM {
     private async carga(){
         this.state = "CARGA"
 
-        await this.chico.carga(this.gaveteiro, this.portaCartoes, this.delay, this.clock);   
+        let final = false
 
+        while(this.state == "CARGA" && !final){
+            if (this.delay > 0) 
+                await sleep(this.delay)
+
+            final = await this.chico.carga(this.gaveteiro, this.portaCartoes, this.clock);
+        }
+            
         this.clock(this.state)
     }
 
