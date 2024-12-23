@@ -20,37 +20,29 @@ export default class Gaveteiro {
 
   }
 
-  public async carga(portaCartao:PortaCartoes, delay:number, call:(state:HVMState) => void){
+  public async carga(portaCartao:PortaCartoes, call:(state:HVMState) => void){
     
-    let index = 0
     let final = false;
+    
+    const cartao = portaCartao.lerCartao()
+    
+    call("CARGA")
+    
+    if (cartao) {
 
-    while(!final) {
+      this.registrar(this.ultimoRestrito, cartao)
 
-      if (delay > 0)
-        await sleep(delay);
-      
-      const cartao = portaCartao.lerCartao()
-      
       call("CARGA")
       
-      if (cartao) {
+      final = cartao == "000"
 
-        this.registrar(index, cartao)
+    } else
+      throw new Error("Falha na carga do porta cartões para gaveteiro.");
 
-        call("CARGA")
-        
-        final = cartao == "000"
 
-      } else
-        throw new Error("Falha na carga do porta cartões para gaveteiro.");
-
-      index++
-
-    }
-
-    this.ultimoRestrito = index
-      
+    this.ultimoRestrito++;
+    
+    return final;
   }
 
   public registrar(endereco: number, valor: string) {
