@@ -42,6 +42,8 @@ export default class HVM {
         if(this.state == "CARGA"){
             
             this.state = "EXECUÇÃO"
+
+            this.clock(this.state)
             await this.execute_debug()
         }
     }
