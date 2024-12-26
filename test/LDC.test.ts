@@ -322,17 +322,16 @@ describe('Depurador', ()=>{
     await hvc.debug(100, "RODANDO")
     
   })
-  it("Rapido", async()=>{
+  it("Impedir avanço indevido", async()=>{
     entradas = []
     saida = ""
-    hvc.setCode("0-1 0-2 0-3 0-4 0-5 0-6 0-7 0-8 0-9 000")
+    hvc.setCode("0-1 0-2 0-3 000")
 
     await hvc.debug(100,"PAUSADO")
-    
     await hvc.next()
     await hvc.next()
     await hvc.next()
-    hvc.back()
-
+    await hvc.next()
+    await hvc.next()
   })
 })
