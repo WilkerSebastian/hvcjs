@@ -166,6 +166,7 @@ describe('Ocorrência de falhas', () => {
 });
 
 describe('Depurador', ()=>{
+  
   it('Executar direto', async() =>{
     entradas = []
     saida = ""
@@ -188,14 +189,14 @@ describe('Depurador', ()=>{
     }, 1000);
     setTimeout(() => {
       hvc.continue()
-    }, 2000);
+    }, 1500);
     await hvc.debug(80,"RODANDO")
     expect(saida).toBe("500\n");
 
     setTimeout(() => {
       
       expect(saida).toBe("500\n510\n");
-    }, 4000);
+    }, 3000);
 
   })
   
@@ -300,6 +301,7 @@ describe('Depurador', ()=>{
 
     hvc.finish()
   })
+  
   it("Interromper carga", async()=>{
     entradas = []
     saida = ""
@@ -319,5 +321,17 @@ describe('Depurador', ()=>{
 
     await hvc.debug(100, "RODANDO")
     
+  })
+  it("Impedir avanço indevido", async()=>{
+    entradas = []
+    saida = ""
+    hvc.setCode("0-1 0-2 0-3 000")
+
+    await hvc.debug(100,"PAUSADO")
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
   })
 })

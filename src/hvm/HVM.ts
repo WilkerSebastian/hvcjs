@@ -64,7 +64,7 @@ export default class HVM {
     public async executarPasso(){
 
         const syntax = new DrawerLanguage()
-        if (this.delay > 0) 
+        if (this.delay > 0 && this.debugger.getState() == "RODANDO") 
             await sleep(this.delay)
 
         let token:DLToken
