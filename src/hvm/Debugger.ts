@@ -34,6 +34,9 @@ export default class Debugger{
     }
     public async nextStage(hvm:HVM){
 
+        if(hvm.getState() == "DESLIGADO"){
+            return;
+        }
         const enderecoAtual = hvm.epi.lerRegistro()
         this.estados.push(new DAO(hvm, enderecoAtual))
         this.nStages += 1;
