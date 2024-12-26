@@ -172,7 +172,7 @@ export default class HVM {
         this.debugger.setState(state);
     }
 
-    public getDebugState(state:DebuggerState){
+    public getDebugState(){
         
         return this.debugger.getState();
     }
