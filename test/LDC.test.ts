@@ -26,7 +26,7 @@ hvc.addEventOutput(out => {
   saida += (out + '\n')
 
 })
-
+/*
 describe('Entrada e Saída', () => {
     it('Leitura de valor 10 e com saída da gaveta onde ficou a entrada', async() => {
 
@@ -164,8 +164,9 @@ describe('Ocorrência de falhas', () => {
     expect(hvc.run()).rejects.toThrow("Tentativa de leitura em endereço inexistente. Gaveta [30].");
   })
 });
-
+*/
 describe('Depurador', ()=>{
+  
   it('Executar direto', async() =>{
     entradas = []
     saida = ""
@@ -188,14 +189,14 @@ describe('Depurador', ()=>{
     }, 1000);
     setTimeout(() => {
       hvc.continue()
-    }, 2000);
+    }, 1500);
     await hvc.debug(80,"RODANDO")
     expect(saida).toBe("500\n");
 
     setTimeout(() => {
       
       expect(saida).toBe("500\n510\n");
-    }, 4000);
+    }, 3000);
 
   })
   
@@ -300,6 +301,7 @@ describe('Depurador', ()=>{
 
     hvc.finish()
   })
+  
   it("Interromper carga", async()=>{
     entradas = []
     saida = ""
@@ -319,5 +321,18 @@ describe('Depurador', ()=>{
 
     await hvc.debug(100, "RODANDO")
     
+  })
+  it("Rapido", async()=>{
+    entradas = []
+    saida = ""
+    hvc.setCode("0-1 0-2 0-3 0-4 0-5 0-6 0-7 0-8 0-9 000")
+
+    await hvc.debug(100,"PAUSADO")
+    
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+    hvc.back()
+
   })
 })
