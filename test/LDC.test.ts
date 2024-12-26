@@ -26,7 +26,7 @@ hvc.addEventOutput(out => {
   saida += (out + '\n')
 
 })
-/*
+
 describe('Entrada e Saída', () => {
     it('Leitura de valor 10 e com saída da gaveta onde ficou a entrada', async() => {
 
@@ -164,7 +164,7 @@ describe('Ocorrência de falhas', () => {
     expect(hvc.run()).rejects.toThrow("Tentativa de leitura em endereço inexistente. Gaveta [30].");
   })
 });
-*/
+
 describe('Depurador', ()=>{
   
   it('Executar direto', async() =>{
