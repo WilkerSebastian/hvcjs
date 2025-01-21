@@ -11,8 +11,11 @@ export default class PortaCartoes {
 
     public async inserir(...cartoes: string[]){
         
-        cartoes.forEach(cartao =>{
-            
+        cartoes.forEach(cartao => {
+
+            if (cartao == "" || cartao == '\n' || cartao == '\r')
+                return
+
             if (!/^(?:[0-9]{1,3}|-(?:[0-9]{1,2})|0-[0-9]{1,3})$/.test(cartao)) {
 
                 const number_value = Number(cartao)
