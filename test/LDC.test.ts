@@ -1,5 +1,5 @@
 // Testes para linguagem de gaveta
-// TODO: Dividir os testes em outros arquivos
+
 import { describe, it, expect } from "bun:test"
 
 import { HVC } from "../dist/index.mjs"
@@ -172,7 +172,7 @@ describe('Depurador', ()=>{
     saida = ""
 
     hvc.setCode("0-500 150 0-010 250 150 850 000")
-    await hvc.debug(0, "RODANDO")
+    await hvc.debug(0, false, "RODANDO")
     
     expect(saida).toBe("510\n");
   })
@@ -190,7 +190,7 @@ describe('Depurador', ()=>{
     setTimeout(() => {
       hvc.continue()
     }, 1500);
-    await hvc.debug(80,"RODANDO")
+    await hvc.debug(80, false, "RODANDO")
     expect(saida).toBe("500\n");
 
     setTimeout(() => {
@@ -206,7 +206,7 @@ describe('Depurador', ()=>{
     saida = ""
 
     hvc.setCode("0-010 720 721 220 221 122 000")
-    await hvc.debug(0, "PAUSADO")
+    await hvc.debug(0, false, "PAUSADO")
 
     await hvc.next()
     expect(hvc.getHVM().calculadora.getAcumulador()).toBe(10)
@@ -249,7 +249,7 @@ describe('Depurador', ()=>{
     pos_entrada = 0
     saida = ""
     hvc.setCode("0-010 720 320 601 000")
-    await hvc.debug(0, "PAUSADO")
+    await hvc.debug(0, false, "PAUSADO")
 
     await hvc.next()
     await hvc.next()
@@ -282,7 +282,7 @@ describe('Depurador', ()=>{
     pos_entrada = 0
     saida = ""
     hvc.setCode("720 820 720 820 000 005 010")
-    await hvc.debug(0, "PAUSADO")
+    await hvc.debug(0, false, "PAUSADO")
 
     await hvc.next()
     await hvc.next()
@@ -319,19 +319,20 @@ describe('Depurador', ()=>{
       
     }, 500)
 
-    await hvc.debug(100, "RODANDO")
+    await hvc.debug(100, false,"RODANDO")
     
   })
   it("Impedir avanço indevido", async()=>{
     entradas = []
     saida = ""
-    hvc.setCode("0-1 0-2 0-3 000")
+    hvc.setCode("0-1 0-2 0-3 0-4 000")
 
-    await hvc.debug(100,"PAUSADO")
+    await hvc.debug(100, false,"PAUSADO")
     await hvc.next()
     await hvc.next()
     await hvc.next()
     await hvc.next()
+    await hvc.back()
     await hvc.next()
   })
 })

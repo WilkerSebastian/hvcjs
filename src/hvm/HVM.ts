@@ -34,10 +34,10 @@ export default class HVM {
         await this.executable()
     }
 
-    public async run_debug(code:string){
+    public async run_debug(code:string, pularCarga?:boolean){
         await this.portaCartoes.inserir(...code.split(/\s+/))
 
-        await this.carga()
+        await this.carga(pularCarga)
 
         if(this.state == "CARGA"){
             
@@ -87,13 +87,13 @@ export default class HVM {
         return this.state;
     }
     
-    private async carga(){
+    private async carga(pular?:boolean){
         this.state = "CARGA"
 
         let final = false
 
         while(this.state == "CARGA" && !final){
-            if (this.delay > 0) 
+            if (!pular && this.delay > 0) 
                 await sleep(this.delay)
 
             final = await this.chico.carga(this.gaveteiro, this.portaCartoes, this.clock);

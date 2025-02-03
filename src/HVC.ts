@@ -77,7 +77,7 @@ export default class HVC {
      * Executa a HVM em modo de depuração com atraso especificado.
      * @param delay Tempo de atraso em milissegundos.
      */
-    public async debug(delay:number, status?:DebuggerState) {
+    public async debug(delay:number, pularCarga:boolean = false, status?:DebuggerState) {
 
         let state = status ? status:this.HVM.debugger.getState()
         this.HVM = new HVM()
@@ -87,7 +87,7 @@ export default class HVC {
         this.HVM.clock = this.clock
 
         this.HVM.debugger.setState(state)
-        await this.HVM.run_debug(this.code)
+        await this.HVM.run_debug(this.code, pularCarga)
 
     }
 
