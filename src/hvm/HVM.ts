@@ -24,7 +24,7 @@ export default class HVM {
     public epi = new EPI()
     public folhaDeSaida = new FolhaDeSaida()
     public gaveteiro = new Gaveteiro()
-    public portaCartoes = new PortaCartoes()
+    public portaCartoes = new PortaCartoes(() => this.clock(this.state))
 
     private delay = 0
 

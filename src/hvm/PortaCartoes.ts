@@ -1,12 +1,21 @@
 export default class PortaCartoes {
 
+    private call: () => void
     public conteudo:string[] = []
     public entrada?:() => Promise<string>
 
+
+    constructor(call: () => void) {
+        this.call = call
+    }
+
     public async inserir(...cartoes: string[]){
         
-        cartoes.forEach(cartao =>{
-            
+        cartoes.forEach(cartao => {
+
+            if (cartao == "" || cartao == '\n' || cartao == '\r')
+                return
+
             if (!/^(?:[0-9]{1,3}|-(?:[0-9]{1,2})|0-[0-9]{1,3})$/.test(cartao)) {
 
                 const number_value = Number(cartao)
@@ -31,6 +40,7 @@ export default class PortaCartoes {
                 cartao = cartao.padStart(3, "0")
                 
             this.conteudo.push(cartao);
+            this.call()
 
         })
         
