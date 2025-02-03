@@ -1,0 +1,33 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build-test-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Instalar Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Instalar dependências
+        run: bun install
+
+      - name: Rodar testes
+        run: bun test
+
+      - name: Fazer build
+        run: bun run build
+
+      - name: Publicar no npm
+        run: bun publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
