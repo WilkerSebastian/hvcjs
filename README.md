@@ -147,11 +147,13 @@ Para acessar o modo de depuração do HVC, em vez de executar o código com o m�
 
 O delay é o tempo em milissegundos que o HVC aguardará antes de executar uma ação.
 
-O status do debug pode ser "RODANDO" ou "PAUSADO". Por padrão, o status do debug é "RODANDO", mas, caso um status seja passado, ele será considerado. Com o status "PAUSADO", o HVM começa parado, permitindo que você tenha controle desde a primeira ação.
+É possível adicionar a flag pularCarga, que, quando verdadeira, ignora o delay para o estado de carga, passando direto para a execução. Isto é útil para códigos grandes que precisam ser depurados cuidadosamente.
+
+O status do debug pode ser "RODANDO" ou "PAUSADO". Por padrão, o status do debug começará como "RODANDO", mas manterá sempre o último estado em que se encontrou na última execução. Caso um status seja passado, ele será considerado. Com o status "PAUSADO", o HVM começa parado, permitindo que você tenha controle desde a primeira ação.
 
 ```ts
-// void debug(delay: number, status?: DebuggerState)
-hvc.debug(0, "PAUSADO")
+// void debug(delay: number, pularCarga:boolean = false, status?: DebuggerState)
+hvc.debug(200, true, "PAUSADO")
 ```
 
 #### 5.2 Métodos stop e continue
