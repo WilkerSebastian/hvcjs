@@ -21,11 +21,11 @@ jobs:
       - name: Instalar dependências
         run: bun install
 
-      - name: Rodar testes
-        run: bun test
-
       - name: Fazer build
         run: bun run build
+
+      - name: Rodar testes
+        run: bun test
 
       - name: Publicar no npm
         run: bun publish --access public
