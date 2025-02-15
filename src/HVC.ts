@@ -1,6 +1,7 @@
 import HVM from "./hvm/HVM"
 import DebuggerState from "./state/DebuggerState"
 import HVMState from "./state/HVMState"
+import { Internalization } from "./utils/Internalization"
 
 /**
  * A classe HVC controla a execução de uma máquina virtual do computador gaveta HVM.
@@ -153,6 +154,12 @@ export default class HVC {
      */
     public getHVM(): HVM {
         return this.HVM
+    }
+
+    public static setLanguageMessages(language:string) {
+
+        Internalization.getInstance().setLanguage(language)
+
     }
 
 }

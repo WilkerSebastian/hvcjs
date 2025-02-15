@@ -1,0 +1,14 @@
+{
+    "not_implemented_in": "No se encontró ninguna implementación de entrada.",
+    "not_implemented_out": "No se encontró ninguna implementación de salida.",
+    "invalid_format_num": "Inserción de formato numérico no válida. Contenido de la tarjeta:",
+    "invalid_format": "Inserción de un formato desconocido en la tarjeta. Contenido de la tarjeta:",
+    "carga_error": "Error al cargar el portatarjetas en el cajón.",
+    "overflow_gav": "Desbordamiento de cajones. Límite de $ registros.",
+    "underflow_gav": "Desbordamiento negativo de cajones. Los cajones van de 0 a $ registros.",
+    "invalid_superscript": "Intento de sobrescribir un cajón que almacena código fuente. Contenido del cajón [$]: $.",
+    "invalid_gav_value": "Valor de escritura no válido en el cajón [$]:$.",
+    "invalid_epi_value": "Valor no válido en el EPI:",
+    "read_null_gav": "Intento de lectura en una dirección inexistente. Cajón [$].",
+    "limit_number_calc": "El valor $ en la calculadora no es válido. Solo se aceptan valores entre -99 y 999."
+}

@@ -1,0 +1,14 @@
+{
+    "not_implemented_in": "No input implementation found.",
+    "not_implemented_out": "No output implementation found.",
+    "invalid_format_num": "Invalid numeric format insertion. Card content:",
+    "invalid_format": "Insertion of an unknown format in card. Card content:",
+    "carga_error": "Failed to load the cardholder into the drawer unit.",
+    "overflow_gav": "Drawer overflow. Limit of $ records.",
+    "underflow_gav": "Negative drawer overflow. Drawers range from 0 to $ records.",
+    "invalid_superscript": "Attempt to overwrite a drawer that stores source code. Drawer content [$]: $.",
+    "invalid_gav_value": "Invalid write value in drawer [$]:$.",
+    "invalid_epi_value": "Invalid value in EPI:",
+    "read_null_gav": "Attempt to read from a nonexistent address. Drawer [$].",
+    "limit_number_calc": "Value $ in the calculator is invalid. Only values between -99 and 999 are accepted."
+}

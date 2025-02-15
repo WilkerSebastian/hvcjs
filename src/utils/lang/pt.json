@@ -1,0 +1,14 @@
+{
+    "not_implemented_in": "Nenhuma implementação de entrada encontrada.",
+    "not_implemented_out": "Nenhuma implementação de saída encontrada.",
+    "invalid_format_num": "Inserção de formato numérico inválido. Conteúdo do cartão:",
+    "invalid_format": "Inserção de um formato desconhecido em cartão. Conteúdo do cartão:",
+    "carga_error": "Falha na carga do porta cartões para gaveteiro.",
+    "overflow_gav": "Sobrecarga de gavetas. Limite de $ registros.",
+    "underflow_gav": "Estouro negativo de gavetas. As gavetas vão de 0 a $ registros.",
+    "invalid_superscript": "Tentativa de sobrescrita em gaveta que armazena código fonte. Conteúdo da gaveta [$]: $.",
+    "invalid_gav_value": "Valor inválido de escrita em gaveta [$]:$.",
+    "invalid_epi_value": "Valor inválido no EPI:",
+    "read_null_gav": "Tentativa de leitura em endereço inexistente. Gaveta [$].",
+    "limit_number_calc": "Valor $ na calculadora é inválido. Apenas valores entre -99 e 999 são aceitos."
+}

@@ -1,3 +1,5 @@
+import { Internalization } from "../utils/Internalization";
+
 export default class FolhaDeSaida {
 
     private text:string = "";
@@ -13,7 +15,7 @@ export default class FolhaDeSaida {
             return
 
         }
-        throw new Error("Nenhuma implementação de saída encontrada.")
+        throw new Error(Internalization.getInstance().translate("not_implemented_out"))
 
     }
 

@@ -4,6 +4,8 @@ import { describe, it, expect } from "bun:test"
 
 import { HVC } from "../dist/index.mjs"
 
+HVC.setLanguageMessages("pt")
+
 const hvc = new HVC()
 
 let entradas:string[] = []

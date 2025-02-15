@@ -1,3 +1,5 @@
+import { Internalization } from "../utils/Internalization";
+
 export default class EPI {
 
     private valor:number = 0;
@@ -5,7 +7,7 @@ export default class EPI {
     public registrar(registro: number) {
 
         if (registro < 0 || registro > 99) 
-            throw new Error("Valor inválido no EPI: " + registro.toString() + ".");
+            throw new Error(`${Internalization.getInstance().translate("invalid_epi_value")} ${registro}.`);
 
         this.valor = registro;
         

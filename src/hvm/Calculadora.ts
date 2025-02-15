@@ -1,3 +1,5 @@
+import { Internalization } from "../utils/Internalization";
+
 export default class Calculadora {
     
   private acumulador = 0;
@@ -28,10 +30,10 @@ export default class Calculadora {
 
   public acumular(valor:number) {
 
-    valor = parseInt(valor.toString())
+    valor = Math.floor(valor);
   
     if(valor < -99 || valor > 999) 
-      throw new Error(`Valor ${valor} na calculadora é inválido. Apenas valores entre -99 e 999 são aceitos`);
+      throw new Error(Internalization.getInstance().translateAndReplace("limit_number_calc", valor));
         
     this.acumulador = valor;
   
