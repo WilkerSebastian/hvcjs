@@ -148,6 +148,9 @@ export default class HVM {
         else if (instrucao == "0-N")
             this.chico.constante(this.calculadora, EE)
 
+        else if (instrucao == "1-EE")
+            this.chico.cpACEE(this.calculadora, this.gaveteiro, EE)
+
         else if(instrucao == "000") 
             return "DESLIGADO"
 

@@ -338,3 +338,22 @@ describe('Depurador', ()=>{
     await hvc.next()
   })
 })
+
+describe("Instruções extendidas", () => {
+
+  it("Copiar de gaveta para gaveta destino", async() => {
+
+    entradas = []
+    saida = ""
+
+    entradas.push("5")
+
+    hvc.setCode("799 798 720 020 398 607 915 0-30 298 197 1-99 098 299 198 903 834 000 1 0")
+
+    await hvc.run()
+
+    expect(saida).toBe("1\n");
+
+  })
+
+})

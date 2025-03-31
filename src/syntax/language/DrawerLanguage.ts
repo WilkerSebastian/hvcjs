@@ -55,6 +55,9 @@ export default class DrawerLanguage extends Syntax {
                 else if (/^0-[0-9]{1,3}$/.test(word)) 
                     token = new DLToken("0-N", parseInt((word.match(/[0-9]{1,3}$/) as RegExpMatchArray)[0]))
 
+                else if (/^1-[0-9]{2}$/.test(word))
+                    token = new DLToken("1-EE", parseInt(word.substring(2, 4)))
+
                 else
                     throw new Error(`Erro de sintaxe, instrução ${word} não é conhecida!`);
 

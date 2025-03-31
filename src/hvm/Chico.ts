@@ -126,6 +126,15 @@ export default class Chico {
         return "DESLIGADO"
     
     }
-    
+
+    public cpACEE(calculadora: Calculadora, gaveteiro: Gaveteiro, endereco: number) {
+
+        const dist = calculadora.getAcumulador()
+
+        const valor = gaveteiro.ler(endereco)
+
+        gaveteiro.registrar(dist, valor)
+
+    }
 
 }
