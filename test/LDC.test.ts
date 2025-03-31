@@ -355,5 +355,17 @@ describe("Instruções extendidas", () => {
     expect(saida).toBe("1\n");
 
   })
+  it("Copiar de gaveta para acumulador com base acumulador + endereco", async() => {
+
+    entradas = []
+    saida = ""
+
+    hvc.setCode("730 0-30 2-00 129 829 000 5")
+
+    await hvc.run()
+
+    expect(saida).toBe("5\n");
+
+  })
 
 })

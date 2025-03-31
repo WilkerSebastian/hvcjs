@@ -127,13 +127,21 @@ export default class Chico {
     
     }
 
-    public cpACEE(calculadora: Calculadora, gaveteiro: Gaveteiro, endereco: number) {
+    public store(calculadora: Calculadora, gaveteiro: Gaveteiro, endereco: number) {
 
         const dist = calculadora.getAcumulador()
 
         const valor = gaveteiro.ler(endereco)
 
         gaveteiro.registrar(dist, valor)
+
+    }
+
+    public load(calculadora: Calculadora, gaveteiro: Gaveteiro, endereco: number) {
+
+        const valor = parseInt(gaveteiro.ler(calculadora.getAcumulador() + endereco)) 
+
+        calculadora.acumular(valor)
 
     }
 

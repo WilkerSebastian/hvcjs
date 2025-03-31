@@ -12,6 +12,6 @@ export default class DLToken extends Token {
 
 }
 
-type DLType = "0EE" | "1EE" | "2EE" | "3EE" | "4EE" | "5EE" | "6EE" | "7EE" | "8EE" | "9EE" | "000" | "0-N" | "1-EE" | "DATA"
+type DLType = "0EE" | "1EE" | "2EE" | "3EE" | "4EE" | "5EE" | "6EE" | "7EE" | "8EE" | "9EE" | "000" | "0-N" | "1-EE" | "2-EE" | "DATA"
 
 export {DLType}

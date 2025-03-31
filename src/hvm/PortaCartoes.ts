@@ -18,7 +18,7 @@ export default class PortaCartoes {
             if (cartao == "" || cartao == '\n' || cartao == '\r')
                 return
 
-            if (!/^(?:[0-9]{1,3}|-(?:[0-9]{1,2})|0-[0-9]{1,3}|1-[0-9]{2})$/.test(cartao)) {
+            if (!/^(?:[0-9]{1,3}|-(?:[0-9]{1,2})|0-[0-9]{1,3}|[1-2]-[0-9]{2})$/.test(cartao)) {
 
                 const number_value = Number(cartao)
 
@@ -35,7 +35,7 @@ export default class PortaCartoes {
 
                 if (start == "0")
                     cartao = "0-" + end.padStart(3, "0")
-                else if (start != "1")
+                else if (start == '')
                     cartao = "-" + end.padStart(2, "0") 
 
             } else 
