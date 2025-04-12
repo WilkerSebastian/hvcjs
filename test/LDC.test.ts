@@ -337,4 +337,27 @@ describe('Depurador', ()=>{
     await hvc.back()
     await hvc.next()
   })
+  it("Salvar saídas anteriores", async()=>{
+    entradas = []
+    saida = ""
+    hvc.setCode("0-1 120 0-2 121 820 821 000")
+
+    await hvc.debug(0, true, "PAUSADO")
+
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+    await hvc.next()
+
+    expect(hvc.getHVM().folhaDeSaida.getText().length).toBe(1)
+    expect(saida).toBe("1\n")
+    await hvc.next()
+    expect(hvc.getHVM().folhaDeSaida.getText().length).toBe(2)
+    expect(saida).toBe("1\n2\n")
+    await hvc.back()
+    expect(saida).toBe("1\n2\n1\n")
+    expect(hvc.getHVM().folhaDeSaida.getText().length).toBe(1)
+
+  })
 })
