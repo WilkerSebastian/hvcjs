@@ -22,7 +22,13 @@ export default class Debugger{
         const estado = this.estados.pop()
         
         hvm.calculadora.acumular(estado!.acumulador)
-        hvm.folhaDeSaida.imprimir(estado!.folhaDeSaida)
+
+        let saida = estado!.folhaDeSaida.pop()
+
+        hvm.folhaDeSaida.setText(estado!.folhaDeSaida)
+        
+        if(saida)
+            hvm.folhaDeSaida.imprimir(saida)
         
         hvm.gaveteiro.setGavetas(estado!.gaveteiro)
         
